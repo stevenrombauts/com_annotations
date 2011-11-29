@@ -1,0 +1,72 @@
+.highlight { outline: 4px solid #07C; }
+.annotated_element { outline: 1px dashed #CEB987; }
+
+div.current_annotation {
+	background-image: url('../images/diagonal.png');
+}
+
+textarea.box { 
+	height:115px; 
+	width: 200px; 
+	min-width: 100px; 
+	max-width: 350px; 
+	padding:5px;
+	border:1px solid #ccc;
+	display:block;
+}
+
+div.annotation { 
+	background-color: #F9EDBE;
+	border: 1px solid #CEB987;
+	padding: 7px;
+	position: absolute;
+	min-width: 45px;
+	max-width: 350px;
+	cursor: pointer;
+	
+	/* CSS3 properties */
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	
+	-moz-box-shadow: 4px 4px 2px #CCC;
+	-webkit-box-shadow: 4px 4px 2px #CCC;
+	box-shadow: 4px 4px 2px #CCC;
+}
+
+/* Used to display the arrows */
+div.annotation:after, div.annotation:before {
+	content: ' ';
+	height: 0;
+	position: absolute;
+	width: 0;
+	border: 10px solid transparent;
+}
+
+div.annotation-left:after {
+	border-left-color: #CEB987;
+	top: 50%;
+	left: 100%;
+	margin-top: -10px;
+}
+
+div.annotation-top:after {
+	border-top-color: #CEB987;
+	top: 100%;
+	left: 50%;
+	margin-left: -10px;
+}
+
+div.annotation-right:before {
+	border-right-color: #CEB987;
+	top: 50%;
+	left: -20px;
+	margin-top: -10px;
+}
+
+div.annotation-bottom:before {
+	border-bottom-color: #CEB987;
+	top: -20px;
+	left: 50%;
+	margin-left: -10px;
+}

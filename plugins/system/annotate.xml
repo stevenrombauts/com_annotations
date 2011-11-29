@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system">
+	<name>System - Annotate</name>
+	<author>Nooku Project</author>
+	<creationDate>July 2011</creationDate>
+	<copyright></copyright>
+	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+	<authorEmail>steven@kotuha.be</authorEmail>
+	<authorUrl></authorUrl>
+	<version>0.1</version>
+	<description>Inserts the annotation javascript</description>
+	<files>
+		<filename plugin="annotate">annotate.php</filename>
+	</files>
+</install>

@@ -1,0 +1,27 @@
+h1. com_annotations
+
+h2. Introduction
+
+This Nooku Server component & plugins allows you to annotate DOM elements to clarify their goal and meaning. This is a POC and we are working very hard to finish the first version. Expect a more useful version by the start of January!
+To get a glimpse of what we are currently aiming for, please check "this presentation":https://kotuha.be/nj11leuven/#slide12 out.
+
+h2. Requirements
+
+* Currently written against Nooku Server 0.7.0-alpha-4
+* Just copy all the files to your root directory
+* Execute the SQL file in administrator/components/com_annotations/install/ to setup the component & plugin
+
+h2. Usage
+
+* Currently limited to back-end for testing purposes!
+* When the page is loaded, press the _'h'_ key on your keyboard to start highlighting elements.
+* Click on an element to annotate it.
+* When editing the text, you can use HTML. To stop editing, click outside of the annotation or press the _ESC_ key.
+* To deselect the current element (when not editing), press the _ESC_ key. 
+* In order to relocate an annotation, select it and then highlight another element in the page.
+* Press the _DEL_ key to remove an annotation.
+* When selected, press the _LEFT_ and _RIGHT_ arrow keys on your keyboard to position the annotation around the element.
+* Press the _'s'_ key to save all your annotations.
+* You can verify if an annotation was saved by checking the Annotations component. Further editing through this component is currently not possible yet!
+
+Enjoy :-) 
