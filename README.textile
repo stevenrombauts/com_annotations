@@ -5,7 +5,9 @@ h2. Introduction
 This Nooku Server component & plugins allows you to annotate DOM elements to clarify their goal and meaning. This is a POC and we are working very hard to finish the first version. Expect a more useful version by the start of January!
 To get a glimpse of what we are currently aiming for, please check "this presentation":https://kotuha.be/nj11leuven/#slide12 out.
 
-h2. Requirements
+h2. Installation
+
+As this is a work in progress, you need to do it manually - for now :-)
 
 * Currently written against Nooku Server 0.7.0-alpha-4
 * Just copy all the files to your root directory
@@ -24,4 +26,4 @@ h2. Usage
 * Press the _'s'_ key to save all your annotations.
 * You can verify if an annotation was saved by checking the Annotations component. Further editing through this component is currently not possible yet!
 
-Enjoy :-) 
+Enjoy!
