@@ -16,6 +16,8 @@ class plgSystemAnnotate extends JPlugin
 			return;
 		}
 		
+		JHTML::_('behavior.keepalive');
+
 		$doc = JFactory::getDocument();
 		$doc->addScript(JURI::root().'media/plg_annotate/js/annotation.js');
 		$doc->addStyleSheet(JURI::root().'media/plg_annotate/css/annotate.css');

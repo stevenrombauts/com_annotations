@@ -7,6 +7,8 @@ window.addEvent('domready', function() {
 		onSuccess: Annotations.assistent.load.bind(Annotations.assistent),
 		method: 'get'
 	}).send();
+
+	Annotations.visibilitypoller = new Annotations.VisibilityPoller();
 });
 
 Annotations = {};
@@ -669,3 +671,33 @@ Annotations.Annotation = new Class({
 	setOrder: function(order) { this.options.ordering = order; }
 });
 
+
+Annotations.VisibilityPoller = new Class({
+	Implements: [Options, Events],
+	/* options */
+	options: {
+		interval: 450
+	},
+	/* functions */
+	initialize: function(element, options) 
+	{
+		this.setOptions(options);
+		
+		this.poll.bind(this).periodical(this.options.interval);
+	},
+	poll: function()
+	{
+		$$('div.isAnnotation').each(function(div)
+		{
+			var annotation = div.retrieve('Annotations.Annotation');
+			var source = annotation.getSource();
+			
+			// check display property
+			var display = source.getStyle('display');
+			annotation.toElement().setStyle('visibility', (display == 'none' ? 'hidden': 'visible') );
+			
+			// copy the visibility property
+			annotation.toElement().setStyle('visibility', source.getStyle('visibility'));
+		});
+	}
+});

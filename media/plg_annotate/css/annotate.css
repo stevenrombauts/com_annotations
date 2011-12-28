@@ -1,4 +1,4 @@
-.highlight { outline: 4px solid #07C; }
+.highlight { outline: 2px solid #07C; background-color: #fffebb !important; }
 .annotated_element { outline: 1px dashed #CEB987; }
 
 div.current_annotation {
