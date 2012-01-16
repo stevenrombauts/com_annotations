@@ -698,6 +698,28 @@ Annotations.VisibilityPoller = new Class({
 			
 			// copy the visibility property
 			annotation.toElement().setStyle('visibility', source.getStyle('visibility'));
+			
+			// if we're not hiding, make sure one of our parent elements isn't hiding either
+			if(annotation.toElement().getStyle('visibility') != 'hidden')
+			{
+				var parent = source.getParent();
+				var property = '';
+				
+				while(parent != null)
+				{
+					property = parent.getStyle('display');
+					
+					if(parent.getStyle('display') == 'none' || parent.getStyle('visibility') == 'hidden')
+					{
+						annotation.toElement().setStyle('visibility', 'hidden');
+						break;
+					} else {
+						annotation.toElement().setStyle('visibility', 'visible');
+					}
+					
+					parent = (parent.get('tag') == 'body' ? null : parent.getParent());
+				}
+			}
 		});
 	}
 });
