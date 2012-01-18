@@ -679,12 +679,11 @@ Annotations.Annotation = new Class({
 	setOrder: function(order) { this.options.ordering = order; }
 });
 
-
 Annotations.VisibilityPoller = new Class({
 	Implements: [Options, Events],
 	/* options */
 	options: {
-		interval: 450
+		interval: 250
 	},
 	/* functions */
 	initialize: function(element, options) 
@@ -694,39 +693,48 @@ Annotations.VisibilityPoller = new Class({
 		this.poll.bind(this).periodical(this.options.interval);
 	},
 	poll: function()
-	{
+	{		
 		$$('div.isAnnotation').each(function(div)
 		{
+			// Only hide annotations if we 're not in edit mode to make sure all elements can be edited
 			var annotation = div.retrieve('Annotations.Annotation');
 			var source = annotation.getSource();
 			
-			// check display property
-			var display = source.getStyle('display');
-			annotation.toElement().setStyle('visibility', (display == 'none' ? 'hidden': 'visible') );
-			
-			// copy the visibility property
-			annotation.toElement().setStyle('visibility', source.getStyle('visibility'));
-			
-			// if we're not hiding, make sure one of our parent elements isn't hiding either
-			if(annotation.toElement().getStyle('visibility') != 'hidden')
+			if(!Annotations.assistent.isActive())
 			{
-				var parent = source.getParent();
-				var property = '';
+				// check display property
+				var display = source.getStyle('display');
+				annotation.toElement().setStyle('visibility', (display == 'none' ? 'hidden': 'visible') );
 				
-				while(parent != null)
+				// copy the visibility property
+				annotation.toElement().setStyle('visibility', source.getStyle('visibility'));
+				
+				// if we're not hiding, make sure one of our parent elements isn't hiding either
+				if(annotation.toElement().getStyle('visibility') != 'hidden')
 				{
-					property = parent.getStyle('display');
+					var parent = source.getParent();
+					var width = height = 2;
 					
-					if(parent.getStyle('display') == 'none' || parent.getStyle('visibility') == 'hidden')
+					while(parent != null)
 					{
-						annotation.toElement().setStyle('visibility', 'hidden');
-						break;
-					} else {
-						annotation.toElement().setStyle('visibility', 'visible');
+						height = parent.getStyle('height').replace(/[^0-9]/g, '').trim().toInt();
+						width = parent.getStyle('width').replace(/[^0-9]/g, '').trim().toInt();
+						
+						if(parent.getStyle('display') == 'none' || parent.getStyle('visibility') == 'hidden'
+								|| width <= 1 || height <= 1)
+						{
+							annotation.toElement().setStyle('visibility', 'hidden');
+							break;
+						} else {
+							annotation.toElement().setStyle('visibility', 'visible');
+						}
+						
+						parent = (parent.get('tag') == 'body' ? null : parent.getParent());
 					}
-					
-					parent = (parent.get('tag') == 'body' ? null : parent.getParent());
 				}
+			}
+			else {
+				annotation.toElement().setStyle('visibility', 'visible'); 
 			}
 		});
 	}

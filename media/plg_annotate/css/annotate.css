@@ -1,3 +1,22 @@
+#step-window {
+	z-index: 13000;
+	position: absolute;
+	min-width: 135px;
+	min-height: 60px;
+	top: 200px;
+	left: 250px;
+	
+	background-color: #F9EDBE;
+	border: 1px solid #CEB987;
+	padding: 4px;
+	margin: 0px;
+	cursor: pointer;
+}
+
+#step-window h3 {
+	margin: 0px;
+}
+
 .highlight { outline: 2px solid #07C; background-color: #fffebb !important; }
 .annotated_element { outline: 1px dashed #CEB987; }
 
