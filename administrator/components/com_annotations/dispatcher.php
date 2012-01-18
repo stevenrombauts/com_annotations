@@ -12,11 +12,14 @@ class ComAnnotationsDispatcher extends ComDefaultDispatcher
 		{
 			$annotation = $this->getService('com://admin/annotations.model.annotations')->getList()->top();
 			
-			$url = clone(KRequest::url());
-            $url->query['view'] = $view;
-            $url->query['page'] = $annotation->page;
-           
-            JFactory::getApplication()->redirect($url);
+			if($annotation->page)
+			{
+				$url = clone(KRequest::url());
+            	$url->query['view'] = $view;
+            	$url->query['page'] = $annotation->page;
+			
+            	JFactory::getApplication()->redirect($url);
+			}
 		}
 	
 		return parent::_actionDispatch($context);

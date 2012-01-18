@@ -3,7 +3,7 @@ window.addEvent('domready', function() {
 	
 	var dummy = $time() + $random(0, 200);
 	this.request = new Request.JSON({
-		url: Annotations._baseUrl+'annotations?format=json&referrer=true&cachekiller='+dummy,
+		url: Annotations._baseUrl+'index.php?option=com_annotations&view=annotations&format=json&referrer=true&cachekiller='+dummy,
 		onSuccess: Annotations.assistent.load.bind(Annotations.assistent),
 		method: 'get'
 	}).send();
@@ -237,7 +237,7 @@ Annotations.Assistent = new Class({
 		{
 			var dummy = $time() + $random(0, 200);
 			this.request = new Request.JSON({
-				url: Annotations._baseUrl+'annotations?format=json&action=savebulk&cachekiller='+dummy,
+				url: Annotations._baseUrl+'index.php?option=com_annotations&format=json&action=savebulk&cachekiller='+dummy,
 				onSuccess: this.updateTableKeys.bind(this),
 				method: 'put'
 			});
@@ -254,6 +254,10 @@ Annotations.Assistent = new Class({
 	
 	updateTableKeys: function(json)
 	{
+		if(!json || !json.data) {
+			return;
+		}
+		
 		var annotations = $$('div.isAnnotation');
 		
 		for(var i=0;i<json.count;i++)
@@ -275,6 +279,10 @@ Annotations.Assistent = new Class({
 	
 	load: function(payload)
 	{
+		if(!payload || !payload.items) {
+			return;
+		}
+		
 		var annotations = payload.items;
 		annotations.each(function(annotation)
 		{

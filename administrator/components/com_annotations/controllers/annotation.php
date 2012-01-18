@@ -1,8 +1,8 @@
 <?php
-class ComAnnotationsControllerAnnotation extends ComDefaultControllerResource
+class ComAnnotationsControllerAnnotation extends ComDefaultControllerDefault
 {
 	protected function _actionPut(KCommandContext $context)
-	{
+	{	
 		$json = KRequest::get('post.annotations', 'raw');
 		$annotations = json_decode($json);
 
