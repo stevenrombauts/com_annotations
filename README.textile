@@ -28,8 +28,3 @@ h2. Usage
 * Press 'h' key again to stop annotating.
 
 Enjoy!
-
-h2. Credits
-
-Randy Verschueren
-Steven Rombauts

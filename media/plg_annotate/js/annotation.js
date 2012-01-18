@@ -713,7 +713,7 @@ Annotations.VisibilityPoller = new Class({
 				if(annotation.toElement().getStyle('visibility') != 'hidden')
 				{
 					var parent = source.getParent();
-					var width = height = 2;
+					var width = height = 1;
 					
 					while(parent != null)
 					{
@@ -721,7 +721,7 @@ Annotations.VisibilityPoller = new Class({
 						width = parent.getStyle('width').replace(/[^0-9]/g, '').trim().toInt();
 						
 						if(parent.getStyle('display') == 'none' || parent.getStyle('visibility') == 'hidden'
-								|| width <= 1 || height <= 1)
+								|| width <= 0 || height <= 0)
 						{
 							annotation.toElement().setStyle('visibility', 'hidden');
 							break;
