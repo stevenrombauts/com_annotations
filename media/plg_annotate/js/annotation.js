@@ -9,6 +9,8 @@ window.addEvent('domready', function() {
 	}).send();
 
 	Annotations.visibilitypoller = new Annotations.VisibilityPoller();
+	
+	//var t = new Annotations.Window();
 });
 
 Annotations = {};
@@ -737,5 +739,19 @@ Annotations.VisibilityPoller = new Class({
 				annotation.toElement().setStyle('visibility', 'visible'); 
 			}
 		});
+	}
+});
+
+Annotations.Window = new Class({
+	Implements: [Options, Events],
+	initialize: function(element, options) 
+	{
+		this.setOptions(options);
+		
+		this.element = new Element('div', {'id': 'step-window', 'html': '<h3>Step #1/?</h3>'});		
+		this.element.inject($(document.body));
+		this.element.setStyle('display', 'block');
+		
+		new Drag.Move(this.element, {'container': $(document.body)});
 	}
 });
