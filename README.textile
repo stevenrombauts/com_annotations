@@ -2,7 +2,7 @@ h1. com_annotations
 
 h2. Introduction
 
-This Nooku Server component & plugins allows you to annotate DOM elements to clarify their goal and meaning. This is a POC and we are working very hard to finish the first version. Expect a more useful version by the start of January!
+This Nooku Server component & plugins allows you to annotate DOM elements to clarify their goal and meaning. This is a POC and we are working very hard to finish the first version.
 To get a glimpse of what we are currently aiming for, please check "this presentation":http://share.kotuha.be/nj11leuven/#slide12 out.
 
 h2. Installation

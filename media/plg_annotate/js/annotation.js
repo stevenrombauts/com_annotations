@@ -701,8 +701,8 @@ Annotations.VisibilityPoller = new Class({
 			// Only hide annotations if we 're not in edit mode to make sure all elements can be edited
 			var annotation = div.retrieve('Annotations.Annotation');
 			var source = annotation.getSource();
-			
-			if(!Annotations.assistent.isActive())
+
+			if(!Annotations.assistent.isActive() && !annotation.isEditing)
 			{
 				// check display property
 				var display = source.getStyle('display');
@@ -725,6 +725,7 @@ Annotations.VisibilityPoller = new Class({
 						if(parent.getStyle('display') == 'none' || parent.getStyle('visibility') == 'hidden'
 								|| width <= 0 || height <= 0)
 						{
+							console.log(parent);
 							annotation.toElement().setStyle('visibility', 'hidden');
 							break;
 						} else {
