@@ -3,8 +3,8 @@ class ComAnnotationsDispatcher extends ComDefaultDispatcher
 {
 	protected function _actionDispatch(KCommandContext $context)
 	{
-		$view = KRequest::get('get.view', 'cmd', $this->_controller);
-
+		/*$view = KRequest::get('get.view', 'cmd', $this->_controller);
+		
 		if($view == 'annotations' 
 			&& !KRequest::has('get.page')
 			&& KRequest::type() != 'AJAX'
@@ -20,7 +20,7 @@ class ComAnnotationsDispatcher extends ComDefaultDispatcher
 			
             	JFactory::getApplication()->redirect($url);
 			}
-		}
+		}*/
 	
 		return parent::_actionDispatch($context);
 	}

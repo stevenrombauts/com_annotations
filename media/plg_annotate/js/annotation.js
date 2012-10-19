@@ -3,20 +3,19 @@ window.addEvent('domready', function() {
 	
 	var dummy = $time() + $random(0, 200);
 	this.request = new Request.JSON({
-		url: Annotations._baseUrl+'index.php?option=com_annotations&view=annotations&format=json&referrer=true&cachekiller='+dummy,
+		url: Annotations._baseUrl+'annotations/annotations.json?identifier='+Annotations._identifier+'&dummy='+dummy,
 		onSuccess: Annotations.assistent.load.bind(Annotations.assistent),
 		method: 'get'
 	}).send();
 
 	Annotations.visibilitypoller = new Annotations.VisibilityPoller();
-	
-	//var t = new Annotations.Window();
 });
 
-Annotations = {};
+var Annotations = Annotations || {};
 
 Annotations.Assistent = new Class({ 
 	activated: false,
+	displayed: false,
 	currentTarget: null,
 	currentAnnotation: null,
 	
@@ -28,7 +27,9 @@ Annotations.Assistent = new Class({
 	
 	onKeyDown: function(e) 
 	{
-		//console.log(e.key);
+		if(Annotations._mode != 'manage') {
+			return;
+		}
 		
 		if(e.key == 'h')
 		{
@@ -227,30 +228,29 @@ Annotations.Assistent = new Class({
 	{
 		// gather all annotations 
 		var elements = $$('div.isAnnotation');
-		var objects = [];
+		var objects = {'title': document.title};
+		objects.annotations = [];
+		
 		for(var i=0;i<elements.length;i++)
 		{
 			var annotation = elements[i].retrieve('Annotations.Annotation');
-			objects.push(annotation.getProperties());
+			objects.annotations.push(annotation.getProperties());
 		}
 		
 		// create the request object if it doesn't exist yet
 		if(this.request == null)
 		{
-			var dummy = $time() + $random(0, 200);
 			this.request = new Request.JSON({
-				url: Annotations._baseUrl+'index.php?option=com_annotations&format=json&action=savebulk&cachekiller='+dummy,
-				onSuccess: this.updateTableKeys.bind(this),
-				method: 'put'
+				url: Annotations._baseUrl+'annotations/builder.json',
+				onSuccess: this.updateTableKeys.bind(this)
 			});
 		}
 		
 		// send the objects for saving
-		this.request.cancel().send({
-			data: {
+		this.request.cancel().post({
 				'annotations': JSON.encode(objects),
-				'_token': Annotations._token
-			}
+				'_token': Annotations._token,
+				'identifier': Annotations._identifier
 		});
 	},
 	
@@ -312,11 +312,28 @@ Annotations.Assistent = new Class({
 			{					
 				var newAnnotation = new Annotations.Annotation(source, annotation);
 				// this.setActiveAnnotation(newAnnotation); @TODO why won't this work??
-				newAnnotation.toElement().fade('hide').fade(1);
+				
+				if(Annotations._mode == 'view') {
+					newAnnotation.toElement().fade('hide');
+				} else
+				{ 
+					newAnnotation.toElement().fade('hide').fade(1);
+					this.displayed = true;
+				}
+				
 				this.currentAnnotation = newAnnotation;
 			}
 			
 		});
+	},
+	
+	toggle: function()
+	{
+		$$('div.isAnnotation').each(function(div) {
+			div.fade(this.displayed ? 0 : 1);
+		}.bind(this));
+		
+		this.displayed = !this.displayed;
 	},
 	
 	setActiveAnnotation: function(annotation) { this.currentAnnotation = annotation; },
@@ -337,6 +354,7 @@ Annotations.Annotation = new Class({
 	isEditing: false,
 	/* options */
 	options: {
+		title: '',
 		text: 'Lorem ipsum dolor sit amet',
 		position: 'bottom',
 		ordering: 1,
@@ -355,6 +373,12 @@ Annotations.Annotation = new Class({
 		
 		if(!this.positions.contains(this.options.position)) {
 			this.options.position = 'bottom';
+		}
+
+		if(this.options.title == '')
+		{
+			var elements = $$('div.isAnnotation');
+			this.options.title = 'Annotation #' + (elements.length + 1);
 		}
 		
 		// build & display
@@ -494,7 +518,10 @@ Annotations.Annotation = new Class({
 		
 		this.source = $(element);
 		this.source.annotated = true;
-		this.source.addClass('annotated_element');
+		
+		if(Annotations._mode == 'manage') {
+			this.source.addClass('annotated_element');
+		}
 		
 		this.source.store('Annotations.Annotation', this);
 		
@@ -638,6 +665,7 @@ Annotations.Annotation = new Class({
 		var properties = {
 			selector: this.selector,
 			uid: this.getUid(),
+			title: this.options.title,
 			text: this.options.text,
 			position: this.options.position,
 			ordering: this.options.ordering,
@@ -710,7 +738,7 @@ Annotations.VisibilityPoller = new Class({
 				
 				// copy the visibility property
 				annotation.toElement().setStyle('visibility', source.getStyle('visibility'));
-				
+
 				// if we're not hiding, make sure one of our parent elements isn't hiding either
 				if(annotation.toElement().getStyle('visibility') != 'hidden')
 				{
@@ -723,9 +751,8 @@ Annotations.VisibilityPoller = new Class({
 						width = parent.getStyle('width').replace(/[^0-9]/g, '').trim().toInt();
 						
 						if(parent.getStyle('display') == 'none' || parent.getStyle('visibility') == 'hidden'
-								|| width <= 0 || height <= 0)
+								|| (width <= 0 && height <= 0))
 						{
-							console.log(parent);
 							annotation.toElement().setStyle('visibility', 'hidden');
 							break;
 						} else {
@@ -740,19 +767,5 @@ Annotations.VisibilityPoller = new Class({
 				annotation.toElement().setStyle('visibility', 'visible'); 
 			}
 		});
-	}
-});
-
-Annotations.Window = new Class({
-	Implements: [Options, Events],
-	initialize: function(element, options) 
-	{
-		this.setOptions(options);
-		
-		this.element = new Element('div', {'id': 'step-window', 'html': '<h3>Step #1/?</h3>'});		
-		this.element.inject($(document.body));
-		this.element.setStyle('display', 'block');
-		
-		new Drag.Move(this.element, {'container': $(document.body)});
 	}
 });

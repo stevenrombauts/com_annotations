@@ -3,16 +3,13 @@
 <?= @template('default_sidebar'); ?>
 
 <form id="articles-form" action="" method="get" class="-koowa-grid">
-    <?= @template('default_filter'); ?>
+    
     <table class="adminlist">
         <thead>
             <tr>
                 <th width="10"></th>
                 <th>
-                    <?= @helper('grid.sort', array('column' => 'selector')) ?>
-                </th>
-                <th width="7%">
-                    <?= @helper('grid.sort', array('column' => 'position')) ?>
+                    <?= @helper('grid.sort', array('column' => 'title')) ?>
                 </th>
                 <th width="7%">
                     <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
@@ -25,7 +22,6 @@
                 <td>
                     <?= @helper('grid.search') ?>
                 </td>
-                <td></td>
                 <td></td>
             </tr>
         </thead>
@@ -44,11 +40,8 @@
                 </td>
                 <td>
                 	<a href="<?= @route('view=annotation&id='.$annotation->id) ?>">
-                    	<?= @escape($annotation->selector); ?>
+                    	<?= @escape($annotation->title); ?>
                     </a>
-                </td>
-                <td align="center">
-                    <?= $annotation->position ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.order', array('row' => $annotation, 'total' => $total)) ?>

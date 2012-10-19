@@ -1,15 +1,18 @@
 <?php defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <div id="sidebar">
-	<h3><?= @text('Pages')?></h3>
-	
-	<ul>
-	<? foreach(array_unique(@service('com://admin/annotations.model.annotations')->getList()->getColumn('page')) as $page) : ?>
-	<li <? if($state->page == $page) echo 'class="active"' ?>>
-	    <a href="<?= @route('page='.urlencode($page)) ?>">
-			<?= str_replace(JURI::root(), '', $page); ?>
-	    </a>
-	</li>
+	<? foreach(@service('com://admin/annotations.model.annotations')->group('package')->sort('package')->getList() as $package) : ?>
+	<h3><?= @text($package->package) ?></h3>
+		
+		<ul>
+		<? foreach(@service('com://admin/annotations.model.annotations')->package($package->package)->group('identifier')->sort('identifier')->getList() as $row) : ?>
+			<? $identifier = new KServiceIdentifier($row->identifier) ?>
+			<li <? if($state->identifier == $row->identifier) echo 'class="active"' ?>>
+			    <a href="<?= @route('identifier='.$row->identifier) ?>">
+					<?= implode('.', array_merge($identifier->path, array($identifier->name))) ?>
+			    </a>
+			</li>
+		<? endforeach; ?>
+		</ul>
 	<? endforeach ?>
-	</ul>
 </div>

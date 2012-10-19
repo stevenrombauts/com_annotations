@@ -2,20 +2,20 @@ h1. com_annotations
 
 h2. Introduction
 
-This Nooku Server component & plugins allows you to annotate DOM elements to clarify their goal and meaning. This is a POC and we are working very hard to finish the first version.
-To get a glimpse of what we are currently aiming for, please check "this presentation":http://share.kotuha.be/nj11leuven/#slide12 out.
+This Nooku Server component allows you to annotate DOM elements to clarify their goal and meaning. This is currently nothing more than a proof of concept. 
+
+(To get a glimpse of what we are currently aiming for, please check "this presentation":http://share.kotuha.be/nj11leuven/#slide12 out.)
 
 h2. Installation
 
-As this is a work in progress, you need to do it manually - for now :-)
-
-* Currently written against Nooku Server 0.7.0-alpha-4
-* Just copy all the files to your root directory
-* Execute the SQL file in administrator/components/com_annotations/install/ to setup the component & plugin
+* Install Nooku Server 12.1
+* Place all the files into your root directory
+* Execute the SQL file in /administrator/components/com_annotations/install/ to install the component & plugin
 
 h2. Usage
 
-* Currently limited to back-end for testing purposes!
+As a super admin, you can create annotations on any page in the back-end;
+
 * When the page is loaded, press the _'h'_ key on your keyboard to start highlighting elements.
 * Click on an element to annotate it.
 * When editing the text, you can use HTML. To stop editing, click outside of the annotation or press the _ESC_ key.
@@ -27,4 +27,4 @@ h2. Usage
 * You can verify if an annotation was saved by checking the Annotations component. Further editing through this component is currently not possible yet!
 * Press 'h' key again to stop annotating.
 
-Enjoy!
+To display your annotations in your component (managers/administrators only), extend your toolbar class to inherit from ComAnnotationsControllerToolbarHelper. This class will automatically add a "Help" button to your toolbar, which displays the annotations when clicked.  
