@@ -1,7 +1,11 @@
 <?php defined('KOOWA') or die('Restricted access') ?>
 
-<?= @template('default_sidebar'); ?>
+<?= @template('com://admin/default.view.grid.toolbar'); ?>
 
+<ktml:module position="sidebar">
+	<?= @template('default_sidebar'); ?>
+</ktml:module>
+	
 <form id="articles-form" action="" method="get" class="-koowa-grid">
     
     <table class="adminlist">

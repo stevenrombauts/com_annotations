@@ -1,14 +1,20 @@
 <?php
 class ComAnnotationsControllerToolbarHelper extends ComDefaultControllerToolbarDefault
 {
-	public function getCommands()
+	public function onAfterControllerBrowse(KEvent $event)
 	{
-		parent::getCommands();
+		parent::onAfterControllerBrowse($event);
 	
 		$this->addSeparator()
 			->addHelp();
-		 
-		return $this->_commands;;
+	}
+	
+	public function onAfterControllerRead(KEvent $event)
+	{
+		parent::onAfterControllerRead($event);
+	
+		$this->addSeparator()
+			->addHelp();
 	}
 	
 	protected function _commandHelp(KControllerToolbarCommand $command)
