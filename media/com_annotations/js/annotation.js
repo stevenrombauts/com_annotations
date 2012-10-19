@@ -3,7 +3,7 @@ window.addEvent('domready', function() {
 	
 	var dummy = $time() + $random(0, 200);
 	this.request = new Request.JSON({
-		url: Annotations._baseUrl+'annotations/annotations.json?identifier='+Annotations._identifier+'&dummy='+dummy,
+		url: Annotations._baseUrl+'annotations/annotations.json?identifier='+Annotations._identifier+'&format=json&dummy='+dummy,
 		onSuccess: Annotations.assistent.load.bind(Annotations.assistent),
 		method: 'get'
 	}).send();
@@ -285,9 +285,11 @@ Annotations.Assistent = new Class({
 			return;
 		}
 		
-		var annotations = payload.items;
-		annotations.each(function(annotation)
+		var annotations = payload.items[0].data;		
+		payload.items.each(function(item)
 		{
+			var annotation = item.data;
+			
 			var selector = '';
 			var index = -1;
 			var source = null;
@@ -377,8 +379,18 @@ Annotations.Annotation = new Class({
 
 		if(this.options.title == '')
 		{
-			var elements = $$('div.isAnnotation');
-			this.options.title = 'Annotation #' + (elements.length + 1);
+			if(element.get('tag') == 'img') {
+				 this.options.title = element.get('title') != '' ? element.get('title') : element.get('src').replace(/^.*[\\\/]/, '');
+			} else {
+				this.options.title = element.get('text');
+			}
+			
+			// still empty?
+			if(this.options.title == '') 
+			{
+				var elements = $$('div.isAnnotation');
+				this.options.title = 'Annotation #' + (elements.length + 1);
+			}
 		}
 		
 		// build & display

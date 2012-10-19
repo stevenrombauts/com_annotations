@@ -29,7 +29,7 @@ class ComAnnotationsControllerBuilder extends ComDefaultControllerDefault
 			$row->position 	 = $annotation->position;
 			$row->ordering 	 = $annotation->ordering;
 			$row->identifier = (string) $identifier;
-			$row->package  = $identifier->package;
+			$row->package  	 = $identifier->package;
 			$row->save();
 			
 			if($row->id)

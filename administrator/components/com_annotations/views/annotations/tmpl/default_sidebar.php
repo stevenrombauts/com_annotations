@@ -9,7 +9,7 @@
 			<? $identifier = new KServiceIdentifier($row->identifier) ?>
 			<li <? if($state->identifier == $row->identifier) echo 'class="active"' ?>>
 			    <a href="<?= @route('identifier='.$row->identifier) ?>">
-					<?= implode('.', array_merge($identifier->path, array($identifier->name))) ?>
+					<?= @text(ucfirst($identifier->path[1])) ?> &raquo; <?= @text(ucfirst($identifier->name)) ?>
 			    </a>
 			</li>
 		<? endforeach; ?>
